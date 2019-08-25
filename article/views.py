@@ -7,11 +7,13 @@ from django.contrib.auth.models import User
 
 
 # Create your views here.
+# 获取所有文章
 def article_list(request):
     articles = ArticlePost.objects.all()
     return render(request, 'article/list.html', locals())
 
 
+# 获取某篇文章的详细信息
 def article_detail(request, id):
     article = ArticlePost.objects.get(id=id)
     # 将markdown语法渲染成html样式
@@ -26,7 +28,7 @@ def article_detail(request, id):
                                      ])
     return render(request, 'article/detail.html', locals())
 
-
+# 创建文章
 def create(request):
     # 判断用户是否提交数据
     if request.method == 'POST':
@@ -52,7 +54,7 @@ def create(request):
         article_post_create = ArticlePostForm()
         return render(request, 'article/create.html', locals())
 
-
+# 删除文章
 def delete(request, id):
     # 根据 id 获取需要删除的文章
     article = ArticlePost.objects.get(id=id)
