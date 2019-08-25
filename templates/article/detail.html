@@ -7,11 +7,26 @@
     <div class="container">
         <div class="row">
             <h1 class="col-12 mt-4 mb-4 text-center">{{ article.title }}</h1>
-            <div class="col-12 alert alert-success">作者:{{ article.author }}</div>
+            <div class="col-12 alert alert-success">作者:{{ article.author }}
+                &nbsp;&nbsp;&nbsp;<a href="#" onclick="confirm_delete()">删除文章</a>
+                &nbsp;&nbsp;&nbsp;<a href="{% url 'article:article_update' article.id %}">编辑文章</a>
+            </div>
+
             <div class="col-12">
-{#                在 article.body 后加上 |safe 过滤器#}
+                {#                在 article.body 后加上 |safe 过滤器#}
                 <p>{{ article.body|safe }}</p>
             </div>
         </div>
     </div>
+        <script>
+            function confirm_delete() {
+                layer.open({
+                    title: '确认删除',
+                    content: '确认删除这一篇文章吗？',
+                    yes: function (index, layero) {
+                        location.href = "{% url 'article:article_delete' article.id %}"
+                    },
+                })
+            }
+        </script>
 {% endblock %}

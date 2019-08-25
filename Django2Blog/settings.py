@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'article.apps.ArticleConfig',
     'mdeditor',
+    'userprofile',
 ]
 
 MIDDLEWARE = [
