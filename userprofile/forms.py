@@ -16,9 +16,10 @@ class UserRegisterForm(forms.ModelForm):
         fields = ['username', 'email']
 
         # 对两次输入的密码是否一致进行检查
-        def clean_password2(self):
-            data = self.cleaned_data
-            if data.get('password') == data.get('password2'):
-                return data.get('password')
-            else:
-                raise forms.ValidationError('密码输入不一致，请重试！！')
+
+    def clean_password2(self):
+        data = self.cleaned_data
+        if data.get('password') == data.get('password2'):
+            return data.get('password')
+        else:
+            raise forms.ValidationError('密码输入不一致，请重试！！')
