@@ -28,6 +28,7 @@ def article_detail(request, id):
                                      ])
     return render(request, 'article/detail.html', locals())
 
+
 # 创建文章
 def create(request):
     # 判断用户是否提交数据
@@ -53,6 +54,7 @@ def create(request):
         # 创建表单类实例
         article_post_create = ArticlePostForm()
         return render(request, 'article/create.html', locals())
+
 
 # 删除文章
 def delete(request, id):
