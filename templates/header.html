@@ -19,6 +19,7 @@
                             {{ user.username }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#" onclick="user_delete()">删除用户</a>
                             <a class="dropdown-item" href="{% url 'user_profile:logout' %}">退出登录</a>
                         </div>
                     </li>
@@ -32,3 +33,17 @@
         </div>
     </div>
 </nav>
+
+{% if user.is_authenticated %}
+    <script>
+        function user_delete() {
+            layer.open({
+                title: '确认删除',
+                content: '确认删除用户资料吗？',
+                yes: function (index, layero) {
+                    location.href = "{% url 'user_profile:delete' user.id %}"
+                },
+            })
+        }
+    </script>
+{% endif %}
