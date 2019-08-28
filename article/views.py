@@ -7,14 +7,14 @@ from django.contrib.auth.models import User
 
 
 # Create your views here.
-# 获取所有文章
 def article_list(request):
+    # 取出所有博客文章
     articles = ArticlePost.objects.all()
     return render(request, 'article/list.html', locals())
 
 
-# 获取某篇文章的详细信息
 def article_detail(request, id):
+    # 获取某篇文章的详细信息
     article = ArticlePost.objects.get(id=id)
     # 将markdown语法渲染成html样式
     article.body = markdown.markdown(article.body,
