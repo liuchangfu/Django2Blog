@@ -10,7 +10,7 @@ def user_login(request):
     if request.method == 'POST':
         user_login_form = UserProfileForm(request.POST)
         if user_login_form.is_valid():
-            # .cleaned_data 清洗出合法数据
+            # cleaned_data 清洗出合法数据
             # 检验账号、密码是否正确匹配数据库中的某个用户
             # 如果均匹配则返回这个 user 对象
             user = authenticate(username=user_login_form.cleaned_data['username'],
@@ -40,7 +40,7 @@ def user_logout(request):
 def user_register(request):
     if request.method == 'POST':
         print(request.POST.get('password'))
-        print(request.POST.get('password1'))
+        print(request.POST.get('password2'))
         user_register_form = UserRegisterForm(request.POST)
         if user_register_form.is_valid():
             new_user = user_register_form.save(commit=False)
