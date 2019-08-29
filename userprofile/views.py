@@ -95,6 +95,8 @@ def edit(request, id):
         if profile_from.is_valid():
             profile.phone = profile_from.cleaned_data['phone']
             profile.bio = profile_from.cleaned_data['bio']
+            if 'avatar' in request.FILES:
+                profile.avatar = profile_from.cleaned_data['avatar']
             profile.save()
             # 带参数的 redirect()
             return redirect('user_profile:edit', id=id)
