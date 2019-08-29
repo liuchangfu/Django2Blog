@@ -20,6 +20,7 @@ def user_login(request):
             if user:
                 # 将用户数据保存在 session 中，即实现了登录动作
                 login(request, user)
+                # 登录成功之后，跳转到文章列表页
                 return redirect('article:article_list')
             else:
                 return HttpResponse('账号或密码输入有误，请重新输入！！')
@@ -46,8 +47,10 @@ def user_register(request):
         user_register_form = UserRegisterForm(request.POST)
         if user_register_form.is_valid():
             new_user = user_register_form.save(commit=False)
+            # 设置密码
             new_user.set_password(user_register_form.cleaned_data['password'])
             new_user.save()
+            # 保存好数据后立即登录并返回博客列表页面
             login(request, new_user)
             return redirect('article:article_list')
         else:
@@ -59,6 +62,7 @@ def user_register(request):
         return HttpResponse('请使用GET或POST提交数据！！')
 
 
+# 验证用户是否登录的装饰器
 @login_required(login_url='/user_profile/login/')
 def user_delete(request, id):
     user = User.objects.get(id=id)
