@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
-from userprofile.forms import UserProfileForm, UserRegisterForm
+from userprofile.forms import UserProfileForm, UserRegisterForm, ProFileFrom
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from userprofile.models import ProFile
 
 
 # Create your views here.
@@ -74,3 +75,33 @@ def user_delete(request, id):
         return redirect('article:article_list')
     else:
         HttpResponse('您没有删除权限！！！')
+
+
+@login_required(login_url='/user_profile/login/')
+def edit(request, id):
+    user = User.objects.get(id=id)
+    # user_id 是 OneToOneField 自动生成的字段
+    # profile = ProFile.objects.get(user_id=id)
+    if ProFile.objects.filter(user_id=id).exists():
+        profile = ProFile.objects.get(user_id=id)
+    else:
+        profile = ProFile.objects.create(user_id=id)
+    if request.method == 'POST':
+        # 验证修改数据者，是否为用户本人
+        if request.user != user:
+            return HttpResponse('您无权修改此用户信息!!')
+
+        profile_from = ProFileFrom(request.POST)
+        if profile_from.is_valid():
+            profile.phone = profile_from.cleaned_data['phone']
+            profile.bio = profile_from.cleaned_data['bio']
+            profile.save()
+            # 带参数的 redirect()
+            return redirect('user_profile:edit', id=id)
+        else:
+            return HttpResponse('注册表单输入有误。请重新输入~')
+    elif request.method == 'GET':
+        profile_from = ProFileFrom()
+        return render(request, 'userprofile/edit.html', locals())
+    else:
+        return HttpResponse("请使用GET或POST请求数据")
