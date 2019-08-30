@@ -45,6 +45,7 @@ def user_register(request):
     if request.method == 'POST':
         print(request.POST.get('password'))
         print(request.POST.get('password2'))
+        print(request.POST.get('username'))
         user_register_form = UserRegisterForm(request.POST)
         if user_register_form.is_valid():
             new_user = user_register_form.save(commit=False)
@@ -90,8 +91,8 @@ def edit(request, id):
         # 验证修改数据者，是否为用户本人
         if request.user != user:
             return HttpResponse('您无权修改此用户信息!!')
-
-        profile_from = ProFileFrom(request.POST)
+        # 上传的文件保存在 request.FILES 中，通过参数传递给表单类
+        profile_from = ProFileFrom(request.POST, request.FILES)
         if profile_from.is_valid():
             profile.phone = profile_from.cleaned_data['phone']
             profile.bio = profile_from.cleaned_data['bio']

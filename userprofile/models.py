@@ -10,7 +10,7 @@ class ProFile(models.Model):
     # 电话号码字段
     phone = models.CharField(max_length=20, blank=True, verbose_name='手机号码')
     # 头像
-    avatar = models.ImageField(upload_to='avatar/%Y%m%d', blank=True, verbose_name='用户头像')
+    avatar = models.ImageField(upload_to='avatar/%Y%m%d/', blank=True, verbose_name='用户头像')
     # 个人简介
     bio = models.TextField(max_length=500, blank=True, verbose_name='个人简介')
 
