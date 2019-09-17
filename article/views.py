@@ -31,6 +31,9 @@ def article_list(request):
 def article_detail(request, id):
     # 获取某篇文章的详细信息
     article = ArticlePost.objects.get(id=id)
+    # 统计浏览量
+    article.total_views += 1
+    article.save(update_fields=['total_views'])
     # 将markdown语法渲染成html样式
     article.body = markdown.markdown(article.body,
                                      extensions=[

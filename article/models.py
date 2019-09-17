@@ -19,6 +19,8 @@ class ArticlePost(models.Model):
     create = models.DateTimeField(default=timezone.now, verbose_name='创建时间')
     # 文章更新时间
     update = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+    # 浏览数
+    total_views = models.PositiveIntegerField(default=0,verbose_name='文章浏览数')
 
     # 函数 __str__ 定义当调用对象的 str() 方法时的返回值内容
     def __str__(self):
