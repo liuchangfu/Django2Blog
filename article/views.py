@@ -10,10 +10,14 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 def article_list(request):
-    # 取出所有博客文章
-    article_list = ArticlePost.objects.all()
-    # 每页显示5篇文章
-    paginator = Paginator(article_list, 1)
+    if request.GET.get('order') == 'total_views':
+        article_list = ArticlePost.objects.all().order_by('-total_views')
+        order = 'total_views'
+    else:
+        article_list = ArticlePost.objects.all()
+        order = 'normal'
+    # 每页显示9篇文章
+    paginator = Paginator(article_list, 9)
     # 获取 url 中的页码
     page = request.GET.get('page')
     try:
