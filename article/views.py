@@ -5,7 +5,7 @@ import markdown
 from article.forms import ArticlePostForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # Create your views here.
@@ -16,8 +16,15 @@ def article_list(request):
     paginator = Paginator(article_list, 1)
     # 获取 url 中的页码
     page = request.GET.get('page')
-    # 将导航对象相应的页码内容返回给 articles
-    articles = paginator.get_page(page)
+    try:
+        # 将导航对象相应的页码内容返回给 articles
+        articles = paginator.page(page)
+    except PageNotAnInteger:
+        # 如果请求的页数不是整数，返回第一页。
+        articles = paginator.page(1)
+    except EmptyPage:
+        # 如果请求的页数不在合法的页数范围内，返回结果的最后一页。
+        articles = paginator.page(paginator.num_pages)
     return render(request, 'article/list.html', locals())
 
 
