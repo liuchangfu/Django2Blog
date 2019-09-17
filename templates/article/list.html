@@ -28,7 +28,8 @@
                  <!-- 如果不是第一页，则显示上翻按钮 -->
                     {% if articles.has_previous %}
                         <a href="?page=1" class="btn btn-success">
-                        &laquo;1
+{#                        &laquo;1#}
+                        首页
                         </a>
                         <span>...</span>
                         <a href="?page={{ articles.previous_page_number }}" class="btn btn-secondary">
@@ -46,7 +47,8 @@
                         </a>
                         <span>...</span>
                         <a href="?page={{ articles.paginator.num_pages }}" class="btn btn-success">
-                        {{ articles.paginator.num_pages }}&raquo;
+{#                        {{ articles.paginator.num_pages }}&raquo;#}
+                        末页
                         </a>
                     {% endif %}
                 </span>

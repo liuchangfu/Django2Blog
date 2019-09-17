@@ -6,6 +6,7 @@
 {% block content %}
     <div class="container">
         <div class="row">
+            {#            加入权限判断，文章不是所属作者的无法修改或删除文章#}
             <h1 class="col-12 mt-4 mb-4 text-center">{{ article.title }}</h1>
             {% if article.author != request.user %}
                 <div class="col-12 alert alert-success">作者:{{ article.author }}
