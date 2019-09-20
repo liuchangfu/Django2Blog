@@ -6,16 +6,35 @@ from article.forms import ArticlePostForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
 
 
 # Create your views here.
 def article_list(request):
-    if request.GET.get('order') == 'total_views':
-        article_list = ArticlePost.objects.all().order_by('-total_views')
-        order = 'total_views'
+    search = request.GET.get('search')
+    print(search)
+    order = request.GET.get('order')
+    print(order)
+    # 用 Q对象 进行联合搜索,搜词可通过标题或文章正文搜索
+    if search:
+        # 最热面包屑搜索
+        if order == 'total_views':
+            article_list = ArticlePost.objects.filter(Q(title__icontains=search) | Q(body__icontains=search)).order_by(
+                '-total_views')
+        else:
+            # 最新面包屑搜索
+            article_list = ArticlePost.objects.filter(Q(title__icontains=search) | Q(body__icontains=search))
     else:
-        article_list = ArticlePost.objects.all()
-        order = 'normal'
+        # 将 search 参数重置为空
+        search = ''
+        # 最热面包屑搜索
+        if order == 'total_views':
+            article_list = ArticlePost.objects.all().order_by('-total_views')
+            order = 'total_views'
+        else:
+            # 最新面包屑搜索
+            article_list = ArticlePost.objects.all()
+
     # 每页显示9篇文章
     paginator = Paginator(article_list, 9)
     # 获取 url 中的页码
