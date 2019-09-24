@@ -126,7 +126,6 @@ dmypy.json
 .pyre/
 
 .gitignore
-.idea/.gitignore
 .idea/Django2Blog.iml
 .idea/inspectionProfiles/
 .idea/libraries/
@@ -136,3 +135,8 @@ dmypy.json
 Django2Blog/__pycache__/
 article/__pycache__/
 article/migrations/
+comment/migrations
+.idea/dataSources.local.xml
+.idea/dataSources/
+.idea/workspace.xml
+media/
