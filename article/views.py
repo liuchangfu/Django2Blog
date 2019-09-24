@@ -58,15 +58,17 @@ def article_detail(request, id):
     article.total_views += 1
     article.save(update_fields=['total_views'])
     # 将markdown语法渲染成html样式
-    article.body = markdown.markdown(article.body,
-                                     extensions=[
-                                         # 包含 缩写、表格等常用扩展
-                                         'markdown.extensions.extra',
-                                         # 语法高亮扩展
-                                         'markdown.extensions.codehilite',
-                                         # 生成文章目录
-                                         'markdown.extensions.toc',
-                                     ])
+    md = markdown.Markdown(article.body,
+                           extensions=[
+                               # 包含 缩写、表格等常用扩展
+                               'markdown.extensions.extra',
+                               # 语法高亮扩展
+                               'markdown.extensions.codehilite',
+                               # 生成文章目录
+                               'markdown.extensions.toc',
+                           ])
+    article.body = md.convert(article.body)
+    toc = md.toc
     return render(request, 'article/detail.html', locals())
 
 
