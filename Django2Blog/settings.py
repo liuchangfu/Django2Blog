@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'mdeditor',
     'userprofile',
     'password_reset',
+    'comment',
 ]
 
 MIDDLEWARE = [
