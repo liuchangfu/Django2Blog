@@ -9,7 +9,7 @@ class ArticleAdmin(admin.ModelAdmin):
     list_display_links = ['title']
 
 
-admin.site.register(ArticlePost,ArticleAdmin)
+admin.site.register(ArticlePost, ArticleAdmin)
 
 # admin后台，登录标题
 admin.site.site_header = '博客管理后台'

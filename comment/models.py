@@ -13,6 +13,8 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['-created']
+        verbose_name_plural = '评论管理'
+        verbose_name = '评论管理'
 
     def __str__(self):
         return self.body[:20]
