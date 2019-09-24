@@ -17,14 +17,16 @@
                     浏览:{{ article.total_views }}
                 </div>
             </div>
+
             <div class="col-9">
                 {# 在 article.body 后加上 |safe 过滤器 #}
                 <p>{{ article.body|safe }}</p>
             </div>
-            {#新增的目录#}
+
             <div class="col-3 mt-4">
                 <h4><strong>目录</strong></h4>
                 <hr>
+                {# 在 article.body 后加上 |safe 过滤器 #}
                 <div>{{ toc|safe }}</div>
             </div>
         </div>

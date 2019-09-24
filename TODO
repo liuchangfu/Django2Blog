@@ -1,1 +1,4 @@
-https://www.dusaiphoto.com/article/detail/33/
+1.用户点击“最热”按钮后，此按钮最好能够变为灰色，并且不可点击。
+原作者的最新和最热的两个面包屑，在点击切换的时候，url分别传递了order=created-time（最新），order=total_views（最热）参数，
+在视图层，定义这两个参数，再到模板层加入判断，未点击之前是<a>标签,点击之后变成<span>标签
+
