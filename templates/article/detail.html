@@ -7,15 +7,13 @@
     <div class="container">
         <div class="row">
             <h1 class="col-9 mt-4 mb-4 text-center">{{ article.title }}</h1>
-            <div class="col-9 alert alert-success">作者:{{ article.author }}
+            <div class="col-9 alert alert-success" style="height: 50px">作者:{{ article.author }}
                 {# 加入权限判断，文章不是所属作者的无法修改或删除文章 #}
                 {% if article.author == request.user %}
                     &nbsp;&nbsp;&nbsp;<a href="#" onclick="confirm_delete()">删除文章</a>
                     &nbsp;&nbsp;&nbsp;<a href="{% url 'article:article_update' article.id %}">编辑文章</a>
                 {% endif %}
-                <div>
-                    浏览:{{ article.total_views }}
-                </div>
+                &nbsp;&nbsp;&nbsp;浏览:{{ article.total_views }}
             </div>
 
             <div class="col-9">
@@ -29,6 +27,7 @@
                 {# 在 article.body 后加上 |safe 过滤器 #}
                 <div>{{ toc|safe }}</div>
             </div>
+
         </div>
     </div>
     <script>
