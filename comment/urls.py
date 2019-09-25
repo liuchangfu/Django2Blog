@@ -1,6 +1,9 @@
 # _*_ coding:utf-8 _*_
 from django.urls import path
+from comment import views
 
 app_name = 'comment'
 
-urlpatterns = []
+urlpatterns = [
+    path('post-comment/<int:article_id>/', views.post_comment, name='post_comment'),
+]

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from mdeditor.fields import MDTextField
+from django.urls import reverse
 
 
 # Create your models here.
@@ -34,3 +35,7 @@ class ArticlePost(models.Model):
         ordering = ['-create']
         verbose_name_plural = '文章'
         verbose_name = '文章'
+
+    # 获取文章地址
+    def get_absolute_url(self):
+        return reverse('article:article_detail', args=[self.id])

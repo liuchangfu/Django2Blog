@@ -22,7 +22,8 @@ def user_login(request):
                 # 将用户数据保存在 session 中，即实现了登录动作
                 login(request, user)
                 # 登录成功之后，跳转到文章列表页
-                return redirect('article:article_list')
+                # return redirect('article:article_list')
+                return redirect(request.GET.get('next', '/'))
             else:
                 return HttpResponse('账号或密码输入有误，请重新输入！！')
         else:
@@ -37,7 +38,8 @@ def user_login(request):
 # 用户退出
 def user_logout(request):
     logout(request)
-    return redirect('article:article_list')
+    # return redirect('article:article_list')
+    return redirect(request.GET.get('next', '/'))
 
 
 # 用户注册

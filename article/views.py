@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from article.models import ArticlePost
+from comment.models import Comment
 import markdown
 from article.forms import ArticlePostForm
 from django.contrib.auth.models import User
@@ -57,6 +58,7 @@ def article_detail(request, id):
     # 统计浏览量
     article.total_views += 1
     article.save(update_fields=['total_views'])
+    comments = Comment.objects.filter(article=id)
     # 将markdown语法渲染成html样式
     md = markdown.Markdown(article.body,
                            extensions=[
