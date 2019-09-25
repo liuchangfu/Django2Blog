@@ -10,6 +10,11 @@ from userprofile.models import ProFile
 # Create your views here.
 # 用户登录
 def user_login(request):
+    # 从 get 或者 post 请求中获取 next 参数值
+    # get 请求中，next 通过 url 传递，即 /?next=value
+    # post 请求中，next 通过表单传递，即 <input type="hidden" name="next" value="{{ next }}"/>
+    redirect_to = request.POST.get('next', request.GET.get('next', ''))
+    print(redirect_to)
     if request.method == 'POST':
         user_login_form = UserProfileForm(request.POST)
         if user_login_form.is_valid():
@@ -21,8 +26,7 @@ def user_login(request):
             if user:
                 # 将用户数据保存在 session 中，即实现了登录动作
                 login(request, user)
-                # 登录成功之后，跳转到文章列表页
-                # return redirect('article:article_list')
+                # 登录成功之后，跳转到登录前的页面
                 return redirect(request.GET.get('next', '/'))
             else:
                 return HttpResponse('账号或密码输入有误，请重新输入！！')
@@ -38,7 +42,7 @@ def user_login(request):
 # 用户退出
 def user_logout(request):
     logout(request)
-    # return redirect('article:article_list')
+    # 退出登录后，跳转到退出前的页面
     return redirect(request.GET.get('next', '/'))
 
 

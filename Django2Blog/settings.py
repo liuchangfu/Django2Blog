@@ -140,3 +140,7 @@ DEFAULT_FROM_EMAIL = 'xxx的博客 <your_email_account@xxx.com>'
 # 媒体文件地址
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LOGOUT_REDIRECT_URL = '/'
+
+LOGIN_REDIRECT_URL = '/'
