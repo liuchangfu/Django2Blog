@@ -7,6 +7,20 @@ from django.urls import reverse
 
 # Create your models here.
 
+class ArticleColumn(models.Model):
+    # 栏目标题
+    title = models.CharField(max_length=100, verbose_name='标题')
+    # 创建时间
+    created = models.DateTimeField(default=timezone.now, verbose_name='创建时间')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['-created']
+        verbose_name_plural = '文章分类'
+        verbose_name = '文章分类'
+
 
 class ArticlePost(models.Model):
     # 文章作者。参数on_delete用于指定数据删除方式
@@ -23,6 +37,9 @@ class ArticlePost(models.Model):
     update = models.DateTimeField(auto_now=True, verbose_name='更新时间')
     # 浏览数
     total_views = models.PositiveIntegerField(default=0, verbose_name='文章浏览数')
+    # 文章栏目的 “一对多” 外键
+    column = models.ForeignKey(ArticleColumn, null=True, blank=True, on_delete=models.CASCADE, related_name='article',
+                               verbose_name='文章分类')
 
     # 函数 __str__ 定义当调用对象的 str() 方法时的返回值内容
     def __str__(self):
