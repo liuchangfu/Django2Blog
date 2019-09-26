@@ -9,7 +9,7 @@
             <h5>点我<a href="{% url 'user_profile:register' %}">注册账号</a>，加入我们吧!</h5>
             <br>
             {#接收登录视图中的next参数的值，用于登录后的跳转#}
-            <form method="post" action="./?next={{ redirect_to }}">
+            <form method="post" action="{% url 'user_profile:login' %}?next={{ redirect_to }}">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="username">用户名:</label>
