@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from article.models import ArticlePost
+from article.models import ArticlePost,ArticleColumn
 from comment.models import Comment
 import markdown
 from article.forms import ArticlePostForm
@@ -89,6 +89,8 @@ def create(request):
             # 如果你进行过删除数据表的操作，可能会找不到id=1的用户
             # 此时请重新创建用户，并传入此用户的id
             new_article.author = User.objects.get(id=request.user.id)
+            if request.POST['column'] != 'none':
+                new_article.column = ArticleColumn.objects.get(id=request.POST['column'])
             # 将新文章保存到数据库中
             new_article.save()
             # 完成后返回到文章列表
@@ -98,6 +100,7 @@ def create(request):
             return HttpResponse('表单内容有误，请重新填写！！')
     else:
         # 创建表单类实例
+        columns = ArticleColumn.objects.all()
         article_post_create = ArticlePostForm()
         return render(request, 'article/create.html', locals())
 
