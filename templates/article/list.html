@@ -103,16 +103,16 @@
                     <!-- 注脚 -->
                     <p>
                         <!-- 附加信息 -->
-                        <span style="color: green">
+                    <span style="color: green">
                         {{ article.total_views }} 浏览&nbsp;&nbsp;&nbsp;
                     </span>
 
-                        <span style="color: blue">
-                        发布于&nbsp;&nbsp;&nbsp;{{ article.created|date:'Y-m-d' }}
+                    <span style="color: blue">
+                        发布时间：{{ article.create|date:'Y-m-d' }}
                     </span>
 
-                        <span style="color: darkred">
-                        更新于&nbsp;&nbsp;&nbsp;{{ article.updated|date:'Y-m-d' }}
+                    <span style="color: darkred">
+                        更新时间：{{ article.update|date:'Y-m-d' }}
                     </span>
                     </p>
                     <hr>
