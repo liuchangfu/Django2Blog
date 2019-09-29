@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from article.models import ArticlePost,ArticleColumn
+from article.models import ArticlePost, ArticleColumn
 from comment.models import Comment
 import markdown
 from article.forms import ArticlePostForm
@@ -13,31 +13,57 @@ from django.db.models import Q
 # Create your views here.
 def article_list(request):
     search = request.GET.get('search')
-    print(search)
+    print('search:', search)
     order = request.GET.get('order')
-    print(order)
-    # 用 Q对象 进行联合搜索,搜词可通过标题或文章正文搜索
+    print('order:', order)
+    column = request.GET.get('column')
+    print('column:', column)
+    tag = request.GET.get('tag')
+    print('tag:', tag)
+    # 初始化查询集
+    article_list = ArticlePost.objects.all()
+    # 搜索查询集
     if search:
-        # 最热面包屑搜索
-        if order == 'total_views':
-            article_list = ArticlePost.objects.filter(Q(title__icontains=search) | Q(body__icontains=search)).order_by(
-                '-total_views')
-        else:
-            # 最新面包屑搜索
-            article_list = ArticlePost.objects.filter(Q(title__icontains=search) | Q(body__icontains=search))
+        article_list = article_list.filter(
+            Q(title__icontains=search) |
+            Q(body__icontains=search)
+        )
     else:
-        # 将 search 参数重置为空
         search = ''
-        # 最热面包屑搜索
-        if order == 'total_views':
-            article_list = ArticlePost.objects.all().order_by('-total_views')
-            order = 'total_views'
-        else:
-            # 最新面包屑搜索
-            article_list = ArticlePost.objects.all()
 
-    # 每页显示9篇文章
-    paginator = Paginator(article_list, 9)
+    # 栏目查询集
+    if column is not None and column.isdigit():
+        article_list = article_list.filter(column=column)
+
+    # 标签查询集
+    if tag and tag != 'None':
+        article_list = article_list.filter(tags__name__in=[tag])
+
+    # 查询集排序
+    if order == 'total_views':
+        article_list = article_list.order_by('-total_views')
+    # 用 Q对象 进行联合搜索,搜词可通过标题或文章正文搜索
+    # if search:
+    #     # 最热面包屑搜索
+    #     if order == 'total_views':
+    #         article_list = ArticlePost.objects.filter(Q(title__icontains=search) | Q(body__icontains=search)).order_by(
+    #             '-total_views')
+    #     else:
+    #         # 最新面包屑搜索
+    #         article_list = ArticlePost.objects.filter(Q(title__icontains=search) | Q(body__icontains=search))
+    # else:
+    #     # 将 search 参数重置为空
+    #     search = ''
+    #     # 最热面包屑搜索
+    #     if order == 'total_views':
+    #         article_list = ArticlePost.objects.all().order_by('-total_views')
+    #         order = 'total_views'
+    #     else:
+    #         # 最新面包屑搜索
+    #         article_list = ArticlePost.objects.all()
+
+    # 每页显示10篇文章
+    paginator = Paginator(article_list, 10)
     # 获取 url 中的页码
     page = request.GET.get('page')
     try:
@@ -93,6 +119,8 @@ def create(request):
                 new_article.column = ArticleColumn.objects.get(id=request.POST['column'])
             # 将新文章保存到数据库中
             new_article.save()
+            # 新增代码，保存 tags 的多对多关系
+            article_post_create.save_m2m()
             # 完成后返回到文章列表
             return redirect('article:article_list')
         else:

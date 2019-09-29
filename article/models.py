@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from mdeditor.fields import MDTextField
 from django.urls import reverse
+from taggit.managers import TaggableManager
 
 
 # Create your models here.
@@ -40,6 +41,8 @@ class ArticlePost(models.Model):
     # 文章栏目的 “一对多” 外键
     column = models.ForeignKey(ArticleColumn, null=True, blank=True, on_delete=models.CASCADE, related_name='article',
                                verbose_name='文章分类')
+    # 文章标签
+    tags = TaggableManager(blank=True, verbose_name='文章标签')
 
     # 函数 __str__ 定义当调用对象的 str() 方法时的返回值内容
     def __str__(self):
