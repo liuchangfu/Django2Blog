@@ -172,6 +172,10 @@ def article_update(request, id):
             article.body = article_post_form.cleaned_data['body']
             # article.title = request.POST['title']
             # article.body = request.POST['body']
+            if request.POST['column'] != 'none':
+                article.column = ArticleColumn.objects.get(id=request.POST['column'])
+            else:
+                article.column = None
             article.save()
             # 完成后返回到修改后的文章中。需传入文章的 id 值
             return redirect('article:article_detail', id=id)
@@ -181,4 +185,5 @@ def article_update(request, id):
     else:
         # 如果用户 GET 请求获取数据
         article_post_from = ArticlePostForm()
+        columns = ArticleColumn.objects.all()
         return render(request, 'article/update.html', locals())
