@@ -66,8 +66,16 @@
 
         <div class="row mt-2">
             {% for article in articles %}
-                <!-- 文章内容 -->
-                <div class="col-12">
+                <!-- 标题图 -->
+                {% if article.avatar %}
+                    <div class="col-3">
+                        <img src="{{ article.avatar.url }}"
+                             alt="avatar"
+                             style="max-width: 100%;border-radius:20px ">
+                    </div>
+                {% endif %}
+
+                <div class="col-9">
                     <!-- 标题 -->
                     <h4>
                         <b>
@@ -76,7 +84,7 @@
                             </a>
                         </b>
                     </h4>
-                    <!-- 摘要 -->
+
                     <div>
                         <p style="color: gray;">{{ article.body|slice:'100' }}....</p>
                     </div>

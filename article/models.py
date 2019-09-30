@@ -4,6 +4,9 @@ from django.utils import timezone
 from mdeditor.fields import MDTextField
 from django.urls import reverse
 from taggit.managers import TaggableManager
+from PIL import Image
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFit
 
 
 # Create your models here.
@@ -43,6 +46,19 @@ class ArticlePost(models.Model):
                                verbose_name='文章分类')
     # 文章标签
     tags = TaggableManager(blank=True, verbose_name='文章标签')
+    # 文章标题图
+    # avatar = models.ImageField(upload_to='article/%Y%m%d/', blank=True, verbose_name='文章缩略图')
+    avatar = ProcessedImageField(
+        # 上传位置
+        upload_to='article/%Y%m%d',
+        # 处理规则,图片宽度为400
+        processors=[ResizeToFit(width=400)],
+        # 存储格式
+        format='JPEG',
+        # 图片质量
+        options={'quality': 100},
+        verbose_name='文章缩略图'
+    )
 
     # 函数 __str__ 定义当调用对象的 str() 方法时的返回值内容
     def __str__(self):
@@ -59,3 +75,17 @@ class ArticlePost(models.Model):
     # 获取文章地址
     def get_absolute_url(self):
         return reverse('article:article_detail', args=[self.id])
+
+    def save(self, *args, **kwargs):
+        # 调用原有的 save() 的功能
+        article = super(ArticlePost, self).save(*args, **kwargs)
+
+        # 固定宽度缩放图片大小
+        if self.avatar and not kwargs.get('update_fields'):
+            image = Image.open(self.avatar)
+            (x, y) = image.size
+            new_x = 400
+            new_y = int(new_x * (y / x))
+            resized_image = image.resize((new_x, new_y), Image.ANTIALIAS)
+            resized_image.save(self.avatar.path)
+        return article

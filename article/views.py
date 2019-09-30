@@ -102,15 +102,15 @@ def article_detail(request, id):
 
 # 创建文章
 @login_required(login_url='/user_profile/login/')
-def create(request):
+def article_create(request):
     # 判断用户是否提交数据
     if request.method == 'POST':
         # 将提交的数据赋值到表单实例中
-        article_post_create = ArticlePostForm(data=request.POST)
+        article_post_from = ArticlePostForm(request.POST, request.FILES)
         # 判断提交的数据是否满足模型的要求
-        if article_post_create.is_valid():
+        if article_post_from.is_valid():
             # 保存数据，但暂时不提交到数据库中
-            new_article = article_post_create.save(commit=False)
+            new_article = article_post_from.save(commit=False)
             # 指定数据库中 id=1 的用户为作者
             # 如果你进行过删除数据表的操作，可能会找不到id=1的用户
             # 此时请重新创建用户，并传入此用户的id
@@ -120,7 +120,7 @@ def create(request):
             # 将新文章保存到数据库中
             new_article.save()
             # 新增代码，保存 tags 的多对多关系
-            article_post_create.save_m2m()
+            article_post_from.save_m2m()
             # 完成后返回到文章列表
             return redirect('article:article_list')
         else:
@@ -129,12 +129,12 @@ def create(request):
     else:
         # 创建表单类实例
         columns = ArticleColumn.objects.all()
-        article_post_create = ArticlePostForm()
+        article_post_from = ArticlePostForm()
         return render(request, 'article/create.html', locals())
 
 
 # 删除文章
-def delete(request, id):
+def article_delete(request, id):
     print(request.user)
     # 根据 id 获取需要删除的文章
     article = ArticlePost.objects.get(id=id)
@@ -176,6 +176,9 @@ def article_update(request, id):
                 article.column = ArticleColumn.objects.get(id=request.POST['column'])
             else:
                 article.column = None
+            if request.FILES.get('avatar'):
+                article.avatar = request.FILES.get('avatar')
+            article.tags.set(*request.POST.get('tags').split(','), clear=True)
             article.save()
             # 完成后返回到修改后的文章中。需传入文章的 id 值
             return redirect('article:article_detail', id=id)
@@ -186,4 +189,5 @@ def article_update(request, id):
         # 如果用户 GET 请求获取数据
         article_post_from = ArticlePostForm()
         columns = ArticleColumn.objects.all()
+        tags = ','.join([x for x in article.tags.names()])
         return render(request, 'article/update.html', locals())

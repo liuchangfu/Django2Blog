@@ -2,8 +2,10 @@ from django import forms
 from article.models import ArticlePost
 
 
+# 写文章的表单类
 class ArticlePostForm(forms.ModelForm):
     class Meta:
+        # 指明数据模型来源
         model = ArticlePost
-        fields = ['title', 'body']
-        fields = ('title', 'body', 'tags')
+        # 定义表单包含的字段
+        fields = ('title', 'body', 'tags', 'avatar')

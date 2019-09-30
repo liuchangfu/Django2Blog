@@ -6,12 +6,25 @@
     <div class="container" xmlns="http://www.w3.org/1999/html">
         <div class="col-12">
             <br>
-            <form method="POST" action=".">
+            <form method="post" action="." enctype="multipart/form-data">
                 {% csrf_token %}
 
+                <!-- 文章标题 -->
                 <div class="form-group">
                     <label for="title">文章标题</label>
                     <input type="text" id="title" name="title" class="form-control" value="{{ article.title }}">
+                </div>
+
+                <!-- 文章标题 -->
+                <div class="form-group">
+                    <label for="avatar">标题图</label>
+                    <input type="file" class="form-control-file" name="avatar" id="avatar">
+                </div>
+
+                <!-- 文章标签 -->
+                <div class="form-group">
+                    <label for="tags">标签</label>
+                    <input type="text" class="form-control col-3" id="tags" name="tags" value="{{ tags }}">
                 </div>
 
                 <!-- 文章栏目 -->
@@ -20,16 +33,17 @@
                     <select class="form-control" id="column" name="column">
                         <option value="none">请选择文章分类</option>
                         {% for column in columns %}
-                            <option value="{{ column.id }}">
-                                {% if column.id  == article.column.id %}
+                            <option value="{{ column.id }}"
+                                    {% if column.id  == article.column.id %}
                                     selected
-                                {% endif %}
+                                    {% endif %}>
                                 {{ column }}
                             </option>
                         {% endfor %}
                     </select>
                 </div>
 
+                <!-- 正文 -->
                 <div class="form-group">
                     <label for="body">正文</label>
                     <textarea type="text" class="form-control" id="body" name="body"
