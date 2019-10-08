@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
-{% block title %}文章详情{% endblock %}
+{% block title %}{{ article.title }}--文章详情{% endblock %}
 
 {% block content %}
     <div class="container">
@@ -62,9 +62,10 @@
                         {{ comment.created|date:'Y-m-d H:i:s' }}
                     </span>时说:
                 </p>
-                <pre style="font-family: inherit;font-size: 1em">
-                    {{ comment.body }}
-                </pre>
+                {#                <pre style="font-family: inherit;font-size: 1em">#}
+                {#                    {{ comment.body |safe }}#}
+                {#                </pre>#}
+                <div>{{ comment.body |safe }}</div>
             {% endfor %}
         </div>
     </div>

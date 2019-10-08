@@ -10,5 +10,4 @@ class CommentAdmin(admin.ModelAdmin):
     list_display_links = ['article']
 
 
-
 admin.site.register(Comment, CommentAdmin)
