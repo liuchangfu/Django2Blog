@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
+from comment.forms import CommentForm
 
 
 # Create your views here.
@@ -97,6 +98,8 @@ def article_detail(request, id):
                            ])
     article.body = md.convert(article.body)
     toc = md.toc
+    # 引入评论表单
+    comment_form = CommentForm()
     return render(request, 'article/detail.html', locals())
 
 

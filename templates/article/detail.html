@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-
 {% block title %}{{ article.title }}--文章详情{% endblock %}
 
 {% block content %}
+    <script src="{% static 'ckeditor/plugins/prism/prism_patched.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'ckeditor/plugins/prism/prism.css' %}">
+
     <div class="container">
         <div class="row">
             <h1 class="col-9 mt-4 mb-4 text-center">{{ article.title }}</h1>
@@ -38,7 +40,11 @@
                         <label for='body'>
                             <strong>我也要发言：</strong>
                         </label>
-                        <textarea type="text" class="form-control" id="body" name="body" rows="4"></textarea>
+                        {#                        <textarea type="text" class="form-control" id="body" name="body" rows="4"></textarea>#}
+                        <div>
+                            {{ comment_form.media }}
+                            {{ comment_form.body }}
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">提交</button>
                 </form>
@@ -79,5 +85,11 @@
                 },
             })
         }
+    </script>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $('.django-ckeditor-widget').removeAttr('style');
     </script>
 {% endblock %}
