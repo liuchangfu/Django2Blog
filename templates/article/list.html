@@ -69,7 +69,7 @@
                 <!-- 标题图 -->
                 {% if article.avatar %}
                     <div class="col-3">
-                        <img src="{{ article.avatar.url }}"
+                        <img class="mb-3" src="{{ article.avatar.url }}"
                              alt="avatar"
                              style="max-width: 100%;border-radius:20px ">
                     </div>
@@ -86,7 +86,7 @@
                     </h4>
 
                     <div>
-                        <p style="color: gray;">{{ article.body|slice:'100' }}....</p>
+                        <p style="color: gray;">{{ article.body|slice:'60' }}....</p>
                     </div>
                     <!-- 栏目 -->
                     {% if article.column %}
@@ -94,11 +94,11 @@
                            class="btn btn-sm mb-2
                             {% if article.column.title == 'Django' %}
                                 btn-primary
-                            {% elif article.column.title == 'python' %}
+                            {% elif article.column.title == 'Python' %}
                                 btn-secondary
                             {% elif article.column.title == '前端' %}
                                  btn-danger
-                             {% elif article.column.title == '生活' %}
+                             {% elif article.column.title == '心情' %}
                                  btn-warning
                             {% elif article.column.title == '其它' %}
                                  btn-info
@@ -134,8 +134,8 @@
                         更新时间：{{ article.update|date:'Y-m-d' }}
                     </span>
                     </p>
-                    <hr>
                 </div>
+                <hr style="width: 100%">
             {% endfor %}
         </div>
 
