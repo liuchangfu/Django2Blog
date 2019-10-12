@@ -22,7 +22,7 @@ from django.conf import settings
 urlpatterns = [
     path('', views.article_list, name='article_list'),
     path('admin/', admin.site.urls),
-    path('article/', include('article.urls'), name='article'),
+    path('article/', include('article.urls'), name='ar ticle'),
     path('user_profile/', include('userprofile.urls'), name='profile'),
     path('password-reset/', include('password_reset.urls'), name='password_reset'),
     path('comment/', include('comment.urls'), name='comment'),
