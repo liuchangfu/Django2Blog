@@ -43,25 +43,6 @@ def article_list(request):
     # 查询集排序
     if order == 'total_views':
         article_list = article_list.order_by('-total_views')
-    # 用 Q对象 进行联合搜索,搜词可通过标题或文章正文搜索
-    # if search:
-    #     # 最热面包屑搜索
-    #     if order == 'total_views':
-    #         article_list = ArticlePost.objects.filter(Q(title__icontains=search) | Q(body__icontains=search)).order_by(
-    #             '-total_views')
-    #     else:
-    #         # 最新面包屑搜索
-    #         article_list = ArticlePost.objects.filter(Q(title__icontains=search) | Q(body__icontains=search))
-    # else:
-    #     # 将 search 参数重置为空
-    #     search = ''
-    #     # 最热面包屑搜索
-    #     if order == 'total_views':
-    #         article_list = ArticlePost.objects.all().order_by('-total_views')
-    #         order = 'total_views'
-    #     else:
-    #         # 最新面包屑搜索
-    #         article_list = ArticlePost.objects.all()
 
     # 每页显示10篇文章
     paginator = Paginator(article_list, 10)
