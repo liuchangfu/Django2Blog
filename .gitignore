@@ -139,3 +139,6 @@ comment/migrations
 .idea/dataSources.local.xml
 .idea/dataSources/
 .idea/workspace.xml
+.idea/shelf/
+media/
+userprofile/migrations
