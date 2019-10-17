@@ -18,6 +18,7 @@ from django.urls import path, include
 from article import views
 from django.conf.urls.static import static
 from django.conf import settings
+import notifications.urls
 
 urlpatterns = [
     path('', views.article_list, name='article_list'),
@@ -26,6 +27,7 @@ urlpatterns = [
     path('user_profile/', include('userprofile.urls'), name='profile'),
     path('password-reset/', include('password_reset.urls'), name='password_reset'),
     path('comment/', include('comment.urls'), name='comment'),
+    path('inbox/notifications/', include(notifications.urls), name='notifications'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
