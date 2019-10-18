@@ -57,8 +57,7 @@
                         <a class="dropdown-item" href="#" onclick="user_delete()">删除用户</a>
                         <a class="dropdown-item" href="{% url 'userprofile:edit' user.id %}">修改用户</a>
                         <a class="dropdown-item" href="{% url 'article:article_create' %}">写文章</a>
-                        <a class="dropdown-item"
-                           href="{% url 'userprofile:logout' %}?next={{ request.path }}">退出</a>
+                        <a class="dropdown-item" href="{% url 'userprofile:logout' %}?next={{ request.path }}">退出</a>
                     </div>
                 </li>
             {% else %}
