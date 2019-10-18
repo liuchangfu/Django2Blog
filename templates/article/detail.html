@@ -55,28 +55,12 @@
             <br>
         {% else %}
             <h5 class="row justify-content-center">
-                请<a href="{% url 'user_profile:login' %}">登录</a>后回复
+                请<a href="{% url 'userprofile:login' %}">登录</a>后回复
             </h5>
         {% endif %}
         <!-- 显示评论 -->
         <h4>共有{{ comments.count }}条评论</h4>
-        {#        <div>#}
-        {#            {% for comment in comments %}#}
-        {#                <hr>#}
-        {#                <p>#}
-        {#                    <strong style="color: pink">#}
-        {#                        {{ comment.user }}#}
-        {#                    </strong>#}
-        {#                    <span style="color: green">#}
-        {#                        {{ comment.created|date:'Y-m-d H:i:s' }}#}
-        {#                    </span>时说:#}
-        {#                </p>#}
-        {#                <pre style="font-family: inherit;font-size: 1em">#}
-        {#                    {{ comment.body |safe }}#}
-        {#                </pre>#}
-        {#                <div>{{ comment.body |safe }}</div>#}
-        {#            {% endfor %}#}
-        {#        </div>#}
+
         <div class="row">
             <!-- 遍历树形结构 -->
             {% recursetree comments %}

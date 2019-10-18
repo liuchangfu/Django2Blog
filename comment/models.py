@@ -25,6 +25,8 @@ class Comment(MPTTModel):
 
     class MPTTMeta:
         order_insertion_by = ['created']
+
+    class Meta:
         verbose_name_plural = '评论管理'
         verbose_name = '评论管理'
 

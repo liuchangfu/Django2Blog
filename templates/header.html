@@ -1,10 +1,15 @@
 {% load staticfiles %}
 {% load notifications_tags %}
 {% notifications_unread as unread_count %}
+
+<!-- 定义导航栏 -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
     <a class="navbar-brand" href="{% url 'article:article_list' %}">
         <img src="{% static 'img/bootstrap-solid.svg' %}" alt="图挂了" style="width: 30px;height: 30px" class="mr-2">笨鸟先飞的个人博客
     </a>
+
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -15,11 +20,6 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'article:article_list' %}">文章</a>
             </li>
-        </ul>
-
-        {% if user.is_authenticated %}
-            <!-- 如果用户已经登录，则显示用户名下拉框 -->
-            <ul class="navbar-nav ml-md-auto" style="margin: -5px 0 -5px 0;">
 
             <form class="form-inline mr-3">
                 <input class="form-control mr-sm-2" type="search" placeholder="搜索文章.." aria-label="Search"
@@ -27,41 +27,47 @@
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
             </form>
 
-            <li class="nav-item dropdown" style="float: right">
-                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-                    {% if unread_count %}
-                        <svg viewBox="0 0 8 8"
-                             width="8px"
-                             height="8px">
-                            <circle cx="4",
-                                    cy="4",
-                                    r="4",
-                                    fill="#ff6b6b"
-                            ></circle>
-                        </svg>
-                    {% endif %}
-                    {{ user.username }}
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#">通知
+            {% if user.is_authenticated %}
+                <!-- 如果用户已经登录，则显示用户名下拉框 -->
+                <ul class="navbar-nav ml-md-auto" style="margin: -5px 0 -5px 0;">
+
+                <li class="nav-item dropdown" style="float: right">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
                         {% if unread_count %}
-                            <span class="badge badge-danger">{{ unread_count }}</span>
+                            <svg viewBox="0 0 8 8"
+                                 width="8px"
+                                 height="8px">
+                                <circle cx="4" ,
+                                        cy="4" ,
+                                        r="4" ,
+                                        fill="#ff6b6b"
+                                ></circle>
+                            </svg>
                         {% endif %}
+                        {{ user.username }}
                     </a>
-                    <a class="dropdown-item" href="#" onclick="user_delete()">删除用户</a>
-                    <a class="dropdown-item" href="{% url 'user_profile:edit' user.id %}">修改用户</a>
-                    <a class="dropdown-item" href="{% url 'article:article_create' %}">写文章</a>
-                    <a class="dropdown-item"
-                       href="{% url 'user_profile:logout' %}?next={{ request.path }}">退出</a>
-                </div>
-            </li>
-            <!-- 如果用户未登录，则显示 “登录” -->
-        {% else %}
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'user_profile:login' %}?next={{ request.path }}">登录</a>
-            </li>
-        {% endif %}
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{% url 'notice:list' %}">通知
+                            {% if unread_count %}
+                                <span class="badge badge-danger">{{ unread_count }}</span>
+                            {% endif %}
+                        </a>
+                        <a class="dropdown-item" href="#" onclick="user_delete()">删除用户</a>
+                        <a class="dropdown-item" href="{% url 'userprofile:edit' user.id %}">修改用户</a>
+                        <a class="dropdown-item" href="{% url 'article:article_create' %}">写文章</a>
+                        <a class="dropdown-item"
+                           href="{% url 'userprofile:logout' %}?next={{ request.path }}">退出</a>
+                    </div>
+                </li>
+                <!-- 如果用户未登录，则显示 “登录” -->
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'userprofile:login' %}?next={{ request.path }}">登录</a>
+                </li>
+            {% endif %}
+            </ul>
         </ul>
     </div>
 </nav>
@@ -73,7 +79,7 @@
                 title: '确认删除',
                 content: '确认删除用户资料吗？',
                 yes: function (index, layero) {
-                    location.href = "{% url 'user_profile:delete' user.id %}"
+                    location.href = "{% url 'userprofile:delete' user.id %}"
                 },
             })
         }

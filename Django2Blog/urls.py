@@ -23,11 +23,12 @@ import notifications.urls
 urlpatterns = [
     path('', views.article_list, name='article_list'),
     path('admin/', admin.site.urls),
-    path('article/', include('article.urls'), name='ar ticle'),
-    path('user_profile/', include('userprofile.urls'), name='profile'),
+    path('article/', include('article.urls', namespace='article')),
+    path('user_profile/', include('userprofile.urls', namespace='userprofile')),
     path('password-reset/', include('password_reset.urls'), name='password_reset'),
-    path('comment/', include('comment.urls'), name='comment'),
-    path('inbox/notifications/', include(notifications.urls), name='notifications'),
+    path('comment/', include('comment.urls', namespace='comment'), name='comment'),
+    path('inbox/notifications/', include(notifications.urls, namespace='notifications')),
+    path('notice/', include('notice.urls', namespace='notice')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
