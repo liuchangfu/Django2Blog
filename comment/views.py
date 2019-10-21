@@ -6,6 +6,7 @@ from comment.forms import CommentForm
 from .models import Comment
 from notifications.signals import notify
 from django.contrib.auth.models import User
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -44,7 +45,8 @@ def post_comment(request, article_id, parent_comment_id=None):
                         target=article,
                         action_object=new_comment,
                     )
-                return HttpResponse('200 OK')
+                # return HttpResponse('200 OK')
+                return JsonResponse({"code": "200", "new_comment_id": new_comment.id})
             new_comment.save()
             # 给管理员发送通知
             if not request.user.is_superuser:
@@ -55,7 +57,8 @@ def post_comment(request, article_id, parent_comment_id=None):
                     target=article,
                     action_object=new_comment,
                 )
-            return redirect(article)
+            redirect_url = article.get_absolute_url() + '#comment_elem_' + str(new_comment.id)
+            return redirect(redirect_url)
         else:
             return HttpResponse('表单内容有误，请重新输入！！')
     elif request.method == 'GET':
