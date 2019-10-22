@@ -19,6 +19,7 @@ from article import views
 from django.conf.urls.static import static
 from django.conf import settings
 import notifications.urls
+from article.views import article_list
 
 urlpatterns = [
     path('', views.article_list, name='article_list'),
@@ -29,6 +30,8 @@ urlpatterns = [
     path('comment/', include('comment.urls', namespace='comment'), name='comment'),
     path('inbox/notifications/', include(notifications.urls, namespace='notifications')),
     path('notice/', include('notice.urls', namespace='notice')),
+    path('accounts/', include('allauth.urls')),
+    path('', article_list, name='home'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

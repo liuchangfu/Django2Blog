@@ -140,7 +140,7 @@ STATICFILES_DIRS = (
 # SMTP服务器，改为你的邮箱的smtp!
 EMAIL_HOST = 'smtp.qq.com'
 # 改为你自己的邮箱名！
-EMAIL_HOST_USER = 'your_email_account@xxx.com'
+EMAIL_HOST_USER = '172667104@qq.com'
 # 你的邮箱密码
 EMAIL_HOST_PASSWORD = 'your_password'
 # 发送邮件的端口
@@ -148,7 +148,7 @@ EMAIL_PORT = 25
 # 是否使用 TLS
 EMAIL_USE_TLS = True
 # 默认的发件人
-DEFAULT_FROM_EMAIL = 'xxx的博客 <your_email_account@xxx.com>'
+DEFAULT_FROM_EMAIL = '笨鸟先飞的博客 <172667104@qq.com>'
 
 # 媒体文件地址
 MEDIA_URL = '/media/'
@@ -156,8 +156,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGOUT_REDIRECT_URL = '/'
 
-LOGIN_REDIRECT_URL = '/article/article-list'
-# LOGIN_REDIRECT_URL = '/'
+# LOGIN_REDIRECT_URL = '/article/article-list'
+LOGIN_REDIRECT_URL = '/'
 
 CKEDITOR_CONFIGS = {
     # django-ckeditor默认使用default配置
@@ -201,5 +201,6 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # 设置站点
+# 当出现"SocialApp matching query does not exist"，这种报错的时候就需要更换这个ID
 SITE_ID = 1
 
