@@ -142,3 +142,5 @@ comment/migrations
 .idea/shelf/
 media/
 userprofile/migrations
+/logs/
+db.sqlite3

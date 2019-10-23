@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from article.models import ArticlePost, ArticleColumn
 from comment.models import Comment
@@ -62,7 +62,8 @@ def article_list(request):
 
 def article_detail(request, id):
     # 获取某篇文章的详细信息
-    article = ArticlePost.objects.get(id=id)
+    # article = ArticlePost.objects.get(id=id)
+    article = get_object_or_404(ArticlePost, id=id)
     # 统计浏览量
     article.total_views += 1
     article.save(update_fields=['total_views'])
