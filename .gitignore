@@ -125,7 +125,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-.gitignore
 .idea/Django2Blog.iml
 .idea/inspectionProfiles/
 .idea/libraries/
@@ -143,4 +142,4 @@ comment/migrations
 media/
 userprofile/migrations
 /logs/
-db.sqlite3
+/db.sqlite3/
