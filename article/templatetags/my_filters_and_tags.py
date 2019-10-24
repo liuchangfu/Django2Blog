@@ -3,6 +3,7 @@ from django import template
 import math
 from django.utils import timezone
 
+
 register = template.Library()
 
 
@@ -10,6 +11,7 @@ register = template.Library()
 def time_since_zh(value):
     now = timezone.now()
     diff = now - value
+
 
     if diff.days == 0 and diff.seconds >= 0 and diff.seconds <= 60:
         return '刚刚'
