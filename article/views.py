@@ -176,3 +176,15 @@ def article_update(request, id):
         columns = ArticleColumn.objects.all()
         tags = ','.join([x for x in article.tags.names()])
         return render(request, 'article/update.html', locals())
+
+
+from django.views import View
+
+
+class IncreaseLikesView(View):
+
+    def post(self, request, *args, **kwargs):
+        article = ArticlePost.objects.get(id=kwargs.get('id'))
+        article.likes += 1
+        article.save()
+        return HttpResponse('success')

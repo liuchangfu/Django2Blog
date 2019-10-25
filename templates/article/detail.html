@@ -23,6 +23,7 @@
                 {# 在 article.body 后加上 |safe 过滤器 #}
                 <p>{{ article.body|safe }}</p>
             </div>
+
             {#文章目录#}
             <div class="col-3 mt-4 sidebar" id="sidebar">
                 <div class="sidebar__inner">
@@ -31,10 +32,27 @@
                     <div>{{ toc|safe }}</div>
                 </div>
             </div>
+            {% comment %}{% endcomment %}
         </div>
 
+        <!-- 新增点赞按钮 -->
+        <div class="mt-lg-4 col-lg-9 text-center">
+            <button class="btn btn-outline-danger" type="button"
+                    onclick="validate_is_like('{% url 'article:increase_likes' article.id %}',{{ article.id }},{{ article.likes }})">
+                <span>点赞</span>
+                <span>
+                        <i class="fas fa-heart"></i>
+                    </span>
+                <span id="likes_number">
+                        {{ article.likes }}
+                    </span>
+            </button>
+        </div>
+        {% comment %}{% endcomment %}
+        <br>
+        <br>
         <!-- 发表评论 -->
-{#        <hr>#}
+        {#        <hr>#}
         {% if user.is_authenticated %}
             <div class="col-lg-9">
                 <form action="{% url 'comment:post_comment' article.id %}" method="POST">

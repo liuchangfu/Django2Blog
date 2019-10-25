@@ -59,6 +59,8 @@ class ArticlePost(models.Model):
         options={'quality': 100},
         verbose_name='文章缩略图'
     )
+    # 点赞数
+    likes = models.PositiveIntegerField(default=0,verbose_name='点赞数')
 
     # 函数 __str__ 定义当调用对象的 str() 方法时的返回值内容
     def __str__(self):

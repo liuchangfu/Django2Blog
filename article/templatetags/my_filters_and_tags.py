@@ -12,7 +12,6 @@ def time_since_zh(value):
     now = timezone.now()
     diff = now - value
 
-
     if diff.days == 0 and diff.seconds >= 0 and diff.seconds <= 60:
         return '刚刚'
 
