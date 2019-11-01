@@ -62,12 +62,25 @@ def article_list(request):
 
 def article_detail(request, id):
     # 获取某篇文章的详细信息
-    # article = ArticlePost.objects.get(id=id)
     article = get_object_or_404(ArticlePost, id=id)
     # 统计浏览量
     article.total_views += 1
     article.save(update_fields=['total_views'])
     comments = Comment.objects.filter(article=id)
+    # 过滤出所有的id比当前文章小的文章
+    pre_article = ArticlePost.objects.filter(id__lt=article.id).order_by('-id')
+    # 过滤出id大的文章
+    next_article = ArticlePost.objects.filter(id__gt=article.id).order_by('id')
+    # 取出相邻前一篇文章
+    if pre_article.count() > 0:
+        pre_article = pre_article[0]
+    else:
+        pre_article = None
+    # 取出相邻后一篇文章
+    if next_article.count() > 0:
+        next_article = next_article[0]
+    else:
+        next_article = None
     # 将markdown语法渲染成html样式
     md = markdown.Markdown(article.body,
                            extensions=[

@@ -51,8 +51,21 @@
         {% comment %}{% endcomment %}
         <br>
         <br>
+        <!-- 相邻文章导航 -->
+        <div class="row">
+                {% if next_article %}
+                    <div class="col-lg-2 mr-auto">
+                        <a href="{{ next_article.get_absolute_url }}" class="btn btn-info">{{ next_article.title }}</a>
+                    </div>
+                {% endif %}
+                {% if pre_article %}
+                    <div class="col-lg-7">
+                        <a href="{{ pre_article.get_absolute_url }}" class="btn btn-info">{{ pre_article.title }}</a>
+                    </div>
+                {% endif %}
+        </div>
+        <br>
         <!-- 发表评论 -->
-        {#        <hr>#}
         {% if user.is_authenticated %}
             <div class="col-lg-9">
                 <form action="{% url 'comment:post_comment' article.id %}" method="POST">
